@@ -27,9 +27,9 @@ blocks:
             - ssh-add ~/.keys/*
             - checkout
       jobs:
-      - name: Dev
+      - name: Live
         commands:
           - checkout
           - ssh -t -o StrictHostKeychecking=no -p 18765 linkio07@linkio.com "cd /home/linkio07/dev/public_html && git fetch --all && ls"
           - echo "done"
-#       conflict create dev line
+#       conflict create live line
