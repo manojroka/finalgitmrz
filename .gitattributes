@@ -1,0 +1,2 @@
+.semaphore/semaphore.yml merge=ignore
+*.yml merge=ignore
