@@ -1,0 +1,35 @@
+version: v1.0
+name: linkio CI-CD
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: "Build"
+    task:
+      env_vars:
+        - name: APP_ENV
+          value: prod
+      jobs:
+      - name: Docker build
+        commands:
+          - ls
+          - echo $APP_ENV
+          - echo "Docker build..."
+          - echo "done"
+  - name: "Push To Servers"
+    task:
+      secrets:
+        - name: linkio_ssh_key
+      prologue:
+          commands:
+            - chmod 0600 ~/.keys/*
+            - ssh-add ~/.keys/*
+            - checkout
+      jobs:
+      - name: live
+        commands:
+          - checkout
+          - ssh -t -o StrictHostKeychecking=no -p 18765 linkio07@linkio.com "cd /home/linkio07/dev/public_html && git fetch --all && ls"
+          - echo "done"
+#       conflict create dev line
